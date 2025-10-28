@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XXXnaper - Desktop App (1440px)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+    * {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Force desktop viewport */
+    body {
+      min-width: 1440px;
+      margin: 0;
+      background: #fafafa;
+    }
+
+    /* Design System Variables */
+    :root {
+      --brand-primary: #667eea;
+      --brand-accent: #3b82f6;
+      --text-primary: #1a1a1a;
+      --text-secondary: #737373;
+      --bg-primary: #ffffff;
+      --bg-canvas: #fafafa;
+      --border-default: #e5e5e5;
+    }
+
+    /* Gradient Presets (All 15) */
+    .gradient-1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .gradient-2 { background: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%); }
+    .gradient-3 { background: linear-gradient(135deg, #141e30 0%, #243b55 100%); }
+    .gradient-4 { background: linear-gradient(135deg, #02aab0 0%, #00cdac 100%); }
+    .gradient-5 { background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%); }
+    .gradient-6 { background: linear-gradient(135deg, #ed4264 0%, #ffedbc 100%); }
+    .gradient-7 { background: linear-gradient(135deg, #ff5f6d 0%, #ffc371 100%); }
+    .gradient-8 { background: linear-gradient(135deg, #ff9966 0%, #ff5e62 100%); }
+    .gradient-9 { background: linear-gradient(135deg, #cc2b5e 0%, #753a88 100%); }
+    .gradient-10 { background: linear-gradient(135deg, #ff512f 0%, #dd2476 100%); }
+    .gradient-11 { background: linear-gradient(135deg, #4568dc 0%, #b06ab3 100%); }
+    .gradient-12 { background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%); }
+    .gradient-13 { background: linear-gradient(135deg, #ee9ca7 0%, #ffdde1 100%); }
+    .gradient-14 { background: linear-gradient(135deg, #eacda3 0%, #d6ae7b 100%); }
+    .gradient-15 { background: linear-gradient(135deg, #4ca1af 0%, #c4e0e5 100%); }
+
+    /* Custom Slider Styling */
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 44px;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-webkit-slider-track {
+      height: 4px;
+      background: #e5e5e5;
+      border-radius: 2px;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #3b82f6;
+      cursor: grab;
+      margin-top: -8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      transition: transform 150ms ease;
+    }
+
+    input[type="range"]:hover::-webkit-slider-thumb {
+      transform: scale(1.05);
+    }
+
+    input[type="range"]:active::-webkit-slider-thumb {
+      cursor: grabbing;
+      transform: scale(1.1);
+    }
+
+    input[type="range"]::-moz-range-track {
+      height: 4px;
+      background: #e5e5e5;
+      border-radius: 2px;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border: none;
+      border-radius: 50%;
+      background: #3b82f6;
+      cursor: grab;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Annotations */
+    .measure {
+      position: relative;
+    }
+    .measure::before {
+      content: attr(data-note);
+      position: absolute;
+      top: -26px;
+      left: 0;
+      font-size: 11px;
+      color: #ef4444;
+      font-weight: 600;
+      background: #fef2f2;
+      padding: 3px 8px;
+      border-radius: 4px;
+      white-space: nowrap;
+      z-index: 100;
+    }
+
+    /* Canvas Preview */
+    .canvas-preview {
+      transition: all 300ms ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07), 0 10px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Swatch Selection */
+    .swatch-selected {
+      box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #3b82f6;
+    }
+
+    /* Keyboard Shortcuts Display */
+    .kbd {
+      display: inline-block;
+      padding: 2px 6px;
+      font-size: 11px;
+      font-family: monospace;
+      background: #f3f4f6;
+      border: 1px solid #d1d5db;
+      border-radius: 4px;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Desktop App Layout: Two-Column (Canvas + Sidebar) -->
+  <div class="flex h-screen bg-white">
+
+    <!-- ========== CANVAS AREA (flex: 1) ========== -->
+    <div class="flex-1 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center measure" data-note="32px padding desktop" style="background: var(--bg-canvas); padding: 32px;">
+
+      <!-- Empty State -->
+      <div id="empty-state" class="text-center max-w-lg">
+        <div class="w-32 h-32 bg-gray-200 rounded-3xl flex items-center justify-center mx-auto mb-6">
+          <svg class="w-16 h-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <h3 class="text-2xl font-semibold text-gray-900 mb-4">No Image Uploaded</h3>
+        <p class="text-lg text-gray-500 mb-8 max-w-md mx-auto">
+          Drag and drop a screenshot here, paste from clipboard (<span class="kbd">Cmd+V</span>), or click the button below
+        </p>
+        <button class="bg-blue-600 text-white px-10 py-4 rounded-lg hover:bg-blue-700 transition font-medium text-lg measure" data-note="44×52px touch target">
+          Upload Screenshot
+        </button>
+        <p class="text-sm text-gray-400 mt-4">
+          Keyboard shortcuts: <span class="kbd">Cmd+V</span> Paste · <span class="kbd">Cmd+S</span> Save
+        </p>
+      </div>
+
+      <!-- Loaded State (Hidden by default) -->
+      <div id="loaded-state" class="hidden w-full h-full flex items-center justify-center">
+        <div id="preview-container" class="relative" style="padding: 80px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 16px;">
+          <img
+            id="preview-image"
+            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='400'%3E%3Crect fill='%23ffffff' width='600' height='400' rx='12'/%3E%3Ctext x='50%25' y='50%25' font-family='Arial' font-size='20' fill='%23999' text-anchor='middle' dominant-baseline='middle'%3EScreenshot Preview (Desktop)%3C/text%3E%3C/svg%3E"
+            alt="Screenshot preview"
+            class="canvas-preview max-w-full max-h-full"
+            style="border-radius: 12px;"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== SIDEBAR (320px fixed width) ========== -->
+    <div class="bg-white border-l border-gray-200 overflow-y-auto measure" data-note="320px fixed sidebar, 32px padding" style="width: 320px; padding: 32px;">
+
+      <!-- Sidebar Header -->
+      <div class="mb-8">
+        <h2 class="text-xl font-semibold text-gray-900 mb-2">Controls</h2>
+        <p class="text-sm text-gray-500">Customize your screenshot background</p>
+      </div>
+
+      <!-- Gradient Swatches Section -->
+      <div class="mb-8">
+        <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-4 measure" data-note="24px section gap">Background Gradient</h3>
+        <div class="grid grid-cols-5 gap-2 measure" data-note="8px gap between swatches">
+          <button class="gradient-1 rounded-lg swatch-selected transition-transform hover:scale-105 active:scale-95 measure" data-note="48×48px swatch" style="width: 48px; height: 48px;" onclick="selectGradient(1)" aria-label="Purple Dream gradient"></button>
+          <button class="gradient-2 rounded-lg transition-transform hover:scale-105 active:scale-95" style="width: 48px; height: 48px;" onclick="selectGradient(2)" aria-label="Ocean Breeze gradient"></button>
+          <button class="gradient-3 rounded-lg transition-transform hover:scale-105 active:scale-95" style="width: 48px; height: 48px;" onclick="selectGradient(3)" aria-label="Midnight Blue gradient"></button>
+          <button class="gradient-4 rounded-lg transition-transform hover:scale-105 active:scale-95" style="width: 48px; height: 48px;" onclick="selectGradient(4)" aria-label="Cool Mint gradient"></button>
+          <button class="gradient-5 rounded-lg transition-transform hover:scale-105 active:scale-95" style="width: 48px; height: 48px;" onclick="selectGradient(5)" aria-label="Sunset Bliss gradient"></button>
+          <button class="gradient-6 rounded-lg transition-transform hover:scale-105 active:scale-95" style="width: 48px; height: 48px;" onclick="selectGradient(6)" aria-label="Peachy Keen gradient"></button>
+          <button class="gradient-7 rounded-lg transition-transform hover:scale-105 active:scale-95" style="width: 48px; height: 48px;" onclick="selectGradient(7)" aria-label="Sweet Morning gradient"></button>
+          <button class="gradient-8 rounded-lg transition-transform hover:scale-105 active:scale-95" style="width: 48px; height: 48px;" onclick="selectGradient(8)" aria-label="Orange Coral gradient"></button>
+          <button class="gradient-9 rounded-lg transition-transform hover:scale-105 active:scale-95" style="width: 48px; height: 48px;" onclick="selectGradient(9)" aria-label="Purple Love gradient"></button>
+          <button class="gradient-10 rounded-lg transition-transform hover:scale-105 active:scale-95" style="width: 48px; height: 48px;" onclick="selectGradient(10)" aria-label="Bloody Mary gradient"></button>
+          <button class="gradient-11 rounded-lg transition-transform hover:scale-105 active:scale-95" style="width: 48px; height: 48px;" onclick="selectGradient(11)" aria-label="Cosmic Night gradient"></button>
+          <button class="gradient-12 rounded-lg transition-transform hover:scale-105 active:scale-95" style="width: 48px; height: 48px;" onclick="selectGradient(12)" aria-label="Lush Green gradient"></button>
+          <button class="gradient-13 rounded-lg transition-transform hover:scale-105 active:scale-95" style="width: 48px; height: 48px;" onclick="selectGradient(13)" aria-label="Soft Pink gradient"></button>
+          <button class="gradient-14 rounded-lg transition-transform hover:scale-105 active:scale-95" style="width: 48px; height: 48px;" onclick="selectGradient(14)" aria-label="Pale Wood gradient"></button>
+          <button class="gradient-15 rounded-lg transition-transform hover:scale-105 active:scale-95" style="width: 48px; height: 48px;" onclick="selectGradient(15)" aria-label="Decent Gray gradient"></button>
+        </div>
+      </div>
+
+      <!-- Upload Custom Background -->
+      <div class="mb-8">
+        <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-4">Custom Background</h3>
+        <button class="w-full bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg p-6 hover:bg-gray-50 hover:border-blue-500 transition flex flex-col items-center justify-center gap-2">
+          <svg class="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+          </svg>
+          <span class="text-sm font-medium text-gray-600">Upload Image</span>
+          <span class="text-xs text-gray-400">PNG, JPG up to 10MB</span>
+        </button>
+      </div>
+
+      <!-- Padding Slider -->
+      <div class="mb-6 measure" data-note="24px spacing between controls">
+        <label class="block">
+          <div class="flex justify-between items-center mb-3">
+            <span class="text-sm font-medium text-gray-900">Padding</span>
+            <span id="padding-value" class="text-sm font-medium text-blue-600 tabular-nums">80px</span>
+          </div>
+          <input
+            type="range"
+            id="padding-slider"
+            min="0"
+            max="200"
+            value="80"
+            aria-label="Padding slider"
+            aria-valuemin="0"
+            aria-valuemax="200"
+            aria-valuenow="80"
+            oninput="updatePadding(this.value)"
+          />
+        </label>
+      </div>
+
+      <!-- Inset Slider -->
+      <div class="mb-6">
+        <label class="block">
+          <div class="flex justify-between items-center mb-3">
+            <span class="text-sm font-medium text-gray-900">Inset</span>
+            <span id="inset-value" class="text-sm font-medium text-blue-600 tabular-nums">0px</span>
+          </div>
+          <input
+            type="range"
+            id="inset-slider"
+            min="0"
+            max="100"
+            value="0"
+            aria-label="Inset slider"
+            oninput="updateInset(this.value)"
+          />
+        </label>
+      </div>
+
+      <!-- Border Radius Slider -->
+      <div class="mb-8">
+        <label class="block">
+          <div class="flex justify-between items-center mb-3">
+            <span class="text-sm font-medium text-gray-900">Border Radius</span>
+            <span id="radius-value" class="text-sm font-medium text-blue-600 tabular-nums">12px</span>
+          </div>
+          <input
+            type="range"
+            id="radius-slider"
+            min="0"
+            max="50"
+            value="12"
+            aria-label="Border radius slider"
+            oninput="updateRadius(this.value)"
+          />
+        </label>
+      </div>
+
+      <!-- Action Buttons (Stacked) -->
+      <div class="space-y-3 measure" data-note="12px spacing between buttons">
+        <button class="w-full bg-blue-600 text-white py-4 rounded-lg hover:bg-blue-700 transition font-medium text-base flex items-center justify-center gap-2 measure" data-note="52px height (larger on desktop)">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+          <span>Download PNG</span>
+          <span class="kbd ml-auto">⌘S</span>
+        </button>
+        <button class="w-full bg-white border border-gray-300 text-gray-700 py-4 rounded-lg hover:bg-gray-50 transition font-medium text-base flex items-center justify-center gap-2">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+          <span>Copy to Clipboard</span>
+          <span class="kbd ml-auto">⌘C</span>
+        </button>
+        <button class="w-full bg-white border border-gray-300 text-gray-700 py-4 rounded-lg hover:bg-gray-50 transition font-medium text-base flex items-center justify-center gap-2">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+          </svg>
+          <span>Share</span>
+        </button>
+      </div>
+
+      <!-- Keyboard Shortcuts Reference -->
+      <div class="mt-8 pt-8 border-t border-gray-200">
+        <h4 class="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-3">Keyboard Shortcuts</h4>
+        <div class="space-y-2 text-sm text-gray-600">
+          <div class="flex justify-between">
+            <span>Paste Image</span>
+            <span class="kbd">⌘V</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Download</span>
+            <span class="kbd">⌘S</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Copy</span>
+            <span class="kbd">⌘C</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Undo</span>
+            <span class="kbd">⌘Z</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Annotation Legend -->
+  <div class="fixed bottom-6 right-6 bg-white border border-gray-300 rounded-lg p-4 shadow-xl max-w-sm text-xs z-50">
+    <h4 class="font-semibold text-gray-900 mb-3">Desktop Layout (1440px+)</h4>
+    <ul class="space-y-1 text-gray-600">
+      <li>• Two-column: Canvas (flex-1) + Sidebar (320px)</li>
+      <li>• Canvas padding: 32px</li>
+      <li>• Sidebar padding: 32px</li>
+      <li>• Section gap: 32px (vertical)</li>
+      <li>• Swatches: 48×48px (larger for desktop)</li>
+      <li>• Button height: 52px (more generous)</li>
+      <li>• Keyboard shortcuts shown</li>
+      <li>• Mouse hover states optimized</li>
+    </ul>
+  </div>
+
+  <script>
+    // Global state
+    let currentGradient = 1;
+    let paddingValue = 80;
+    let insetValue = 0;
+    let radiusValue = 12;
+
+    // Gradient mapping
+    const gradients = {
+      1: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      2: 'linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%)',
+      3: 'linear-gradient(135deg, #141e30 0%, #243b55 100%)',
+      4: 'linear-gradient(135deg, #02aab0 0%, #00cdac 100%)',
+      5: 'linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%)',
+      6: 'linear-gradient(135deg, #ed4264 0%, #ffedbc 100%)',
+      7: 'linear-gradient(135deg, #ff5f6d 0%, #ffc371 100%)',
+      8: 'linear-gradient(135deg, #ff9966 0%, #ff5e62 100%)',
+      9: 'linear-gradient(135deg, #cc2b5e 0%, #753a88 100%)',
+      10: 'linear-gradient(135deg, #ff512f 0%, #dd2476 100%)',
+      11: 'linear-gradient(135deg, #4568dc 0%, #b06ab3 100%)',
+      12: 'linear-gradient(135deg, #56ab2f 0%, #a8e063 100%)',
+      13: 'linear-gradient(135deg, #ee9ca7 0%, #ffdde1 100%)',
+      14: 'linear-gradient(135deg, #eacda3 0%, #d6ae7b 100%)',
+      15: 'linear-gradient(135deg, #4ca1af 0%, #c4e0e5 100%)'
+    };
+
+    function selectGradient(num) {
+      currentGradient = num;
+      document.querySelectorAll('[class*="gradient-"]').forEach(btn => {
+        btn.classList.remove('swatch-selected');
+      });
+      event.target.classList.add('swatch-selected');
+      updatePreview();
+    }
+
+    function updatePadding(value) {
+      paddingValue = value;
+      document.getElementById('padding-value').textContent = value + 'px';
+      updatePreview();
+    }
+
+    function updateInset(value) {
+      insetValue = value;
+      document.getElementById('inset-value').textContent = value + 'px';
+      updatePreview();
+    }
+
+    function updateRadius(value) {
+      radiusValue = value;
+      document.getElementById('radius-value').textContent = value + 'px';
+      updatePreview();
+    }
+
+    function updatePreview() {
+      const container = document.getElementById('preview-container');
+      const image = document.getElementById('preview-image');
+      if (container && image) {
+        container.style.padding = paddingValue + 'px';
+        container.style.background = gradients[currentGradient];
+        container.style.borderRadius = radiusValue + 'px';
+        image.style.borderRadius = radiusValue + 'px';
+      }
+    }
+
+    function showLoadedState() {
+      document.getElementById('empty-state').classList.add('hidden');
+      document.getElementById('loaded-state').classList.remove('hidden');
+      updatePreview();
+    }
+
+    // Auto-demo after 2s
+    setTimeout(showLoadedState, 2000);
+
+    // Keyboard shortcuts (demo)
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 's') {
+        e.preventDefault();
+        alert('Download triggered (⌘S)');
+      }
+      if ((e.metaKey || e.ctrlKey) && e.key === 'c') {
+        // Allow default copy if text is selected
+        if (!window.getSelection().toString()) {
+          e.preventDefault();
+          alert('Copy to clipboard triggered (⌘C)');
+        }
+      }
+      if ((e.metaKey || e.ctrlKey) && e.key === 'v') {
+        e.preventDefault();
+        alert('Paste image triggered (⌘V)');
+      }
+    });
+  </script>
+
+</body>
+</html>

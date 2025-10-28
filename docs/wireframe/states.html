@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XXXnaper - Interaction States</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+    * {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background: #f9fafb;
+    }
+
+    /* Design System Variables */
+    :root {
+      --brand-primary: #667eea;
+      --brand-accent: #3b82f6;
+      --text-primary: #1a1a1a;
+      --text-secondary: #737373;
+      --bg-primary: #ffffff;
+      --border-default: #e5e5e5;
+    }
+
+    /* Gradient Classes */
+    .gradient-1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+
+    /* State Demo Card */
+    .state-card {
+      background: white;
+      border: 1px solid #e5e5e5;
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 32px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .state-preview {
+      background: #fafafa;
+      border: 1px dashed #d4d4d4;
+      border-radius: 8px;
+      padding: 32px;
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    /* State Labels */
+    .state-label {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .state-label.default { background: #e5e7eb; color: #374151; }
+    .state-label.hover { background: #dbeafe; color: #1e40af; }
+    .state-label.active { background: #fef3c7; color: #92400e; }
+    .state-label.focus { background: #e0e7ff; color: #3730a3; }
+    .state-label.disabled { background: #f3f4f6; color: #9ca3af; }
+    .state-label.loading { background: #ddd6fe; color: #5b21b6; }
+    .state-label.success { background: #d1fae5; color: #065f46; }
+    .state-label.error { background: #fee2e2; color: #991b1b; }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
+    }
+
+    .toast {
+      animation: slideIn 300ms ease-out;
+    }
+
+    /* Loading Spinner */
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .spinner {
+      border: 3px solid #e5e5e5;
+      border-top-color: #3b82f6;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="max-w-7xl mx-auto px-8 py-12">
+
+    <!-- Header -->
+    <header class="mb-12">
+      <h1 class="text-4xl font-semibold text-gray-900 mb-4">XXXnaper Interaction States</h1>
+      <p class="text-lg text-gray-600">
+        Comprehensive showcase of all component states: default, hover, active, focus, disabled, loading, success, and error.
+      </p>
+    </header>
+
+    <!-- Quick Nav -->
+    <nav class="bg-white border border-gray-200 rounded-lg p-6 mb-12">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">State Categories</h2>
+      <ul class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+        <li><a href="#button-states" class="text-blue-600 hover:underline">Button States</a></li>
+        <li><a href="#swatch-states" class="text-blue-600 hover:underline">Swatch States</a></li>
+        <li><a href="#input-states" class="text-blue-600 hover:underline">Input States</a></li>
+        <li><a href="#loading-states" class="text-blue-600 hover:underline">Loading States</a></li>
+        <li><a href="#toast-states" class="text-blue-600 hover:underline">Toast Messages</a></li>
+        <li><a href="#empty-states" class="text-blue-600 hover:underline">Empty States</a></li>
+        <li><a href="#error-states" class="text-blue-600 hover:underline">Error States</a></li>
+        <li><a href="#canvas-states" class="text-blue-600 hover:underline">Canvas States</a></li>
+      </ul>
+    </nav>
+
+    <!-- ========== BUTTON STATES ========== -->
+    <section id="button-states" class="state-card">
+      <h2 class="text-2xl font-semibold text-gray-900 mb-6">Button States</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Default -->
+        <div>
+          <span class="state-label default mb-3">Default</span>
+          <div class="state-preview">
+            <button class="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium">
+              Download
+            </button>
+          </div>
+          <p class="text-sm text-gray-600">Resting state, ready for interaction</p>
+        </div>
+
+        <!-- Hover -->
+        <div>
+          <span class="state-label hover mb-3">Hover</span>
+          <div class="state-preview">
+            <button class="bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transform -translate-y-0.5 shadow-md">
+              Download
+            </button>
+          </div>
+          <p class="text-sm text-gray-600">Darker color, slight lift, increased shadow</p>
+        </div>
+
+        <!-- Active/Pressed -->
+        <div>
+          <span class="state-label active mb-3">Active</span>
+          <div class="state-preview">
+            <button class="bg-blue-800 text-white px-6 py-3 rounded-lg font-medium transform translate-y-0 shadow-sm">
+              Download
+            </button>
+          </div>
+          <p class="text-sm text-gray-600">Pressed down, darkest color, no lift</p>
+        </div>
+
+        <!-- Focus -->
+        <div>
+          <span class="state-label focus mb-3">Focus</span>
+          <div class="state-preview">
+            <button class="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium ring-2 ring-blue-400 ring-offset-2">
+              Download
+            </button>
+          </div>
+          <p class="text-sm text-gray-600">Keyboard focus with visible outline</p>
+        </div>
+
+        <!-- Disabled -->
+        <div>
+          <span class="state-label disabled mb-3">Disabled</span>
+          <div class="state-preview">
+            <button class="bg-gray-300 text-gray-500 px-6 py-3 rounded-lg font-medium cursor-not-allowed opacity-60" disabled>
+              Download
+            </button>
+          </div>
+          <p class="text-sm text-gray-600">Grayed out, cursor not-allowed, opacity 60%</p>
+        </div>
+
+        <!-- Loading -->
+        <div>
+          <span class="state-label loading mb-3">Loading</span>
+          <div class="state-preview">
+            <button class="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium flex items-center gap-2 cursor-wait opacity-80" disabled>
+              <div class="w-4 h-4 spinner"></div>
+              Downloading...
+            </button>
+          </div>
+          <p class="text-sm text-gray-600">Spinner shown, text changes, disabled</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SWATCH STATES ========== -->
+    <section id="swatch-states" class="state-card">
+      <h2 class="text-2xl font-semibold text-gray-900 mb-6">Color Swatch States</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Default -->
+        <div>
+          <span class="state-label default mb-3">Default</span>
+          <div class="state-preview">
+            <button class="gradient-1 rounded-lg transition-transform" style="width: 48px; height: 48px;"></button>
+          </div>
+          <p class="text-sm text-gray-600">Normal state, no border</p>
+        </div>
+
+        <!-- Hover -->
+        <div>
+          <span class="state-label hover mb-3">Hover</span>
+          <div class="state-preview">
+            <button class="gradient-1 rounded-lg transform scale-105" style="width: 48px; height: 48px;"></button>
+          </div>
+          <p class="text-sm text-gray-600">Scale to 1.05, smooth transition</p>
+        </div>
+
+        <!-- Active/Pressed -->
+        <div>
+          <span class="state-label active mb-3">Active</span>
+          <div class="state-preview">
+            <button class="gradient-1 rounded-lg transform scale-95" style="width: 48px; height: 48px;"></button>
+          </div>
+          <p class="text-sm text-gray-600">Scale to 0.95, pressed effect</p>
+        </div>
+
+        <!-- Selected -->
+        <div>
+          <span class="state-label focus mb-3">Selected</span>
+          <div class="state-preview">
+            <button class="gradient-1 rounded-lg" style="width: 48px; height: 48px; box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #3b82f6;"></button>
+          </div>
+          <p class="text-sm text-gray-600">Blue ring with white inner border</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== INPUT STATES ========== -->
+    <section id="input-states" class="state-card">
+      <h2 class="text-2xl font-semibold text-gray-900 mb-6">File Input States</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Default -->
+        <div>
+          <span class="state-label default mb-3">Default</span>
+          <div class="state-preview">
+            <div class="w-full max-w-xs bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+              <svg class="w-8 h-8 text-gray-400 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+              </svg>
+              <span class="text-sm text-gray-600">Upload Image</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hover -->
+        <div>
+          <span class="state-label hover mb-3">Hover</span>
+          <div class="state-preview">
+            <div class="w-full max-w-xs bg-gray-50 border-2 border-dashed border-blue-500 rounded-lg p-4 text-center">
+              <svg class="w-8 h-8 text-blue-500 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+              </svg>
+              <span class="text-sm text-blue-600">Upload Image</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Drag Active -->
+        <div>
+          <span class="state-label active mb-3">Drag Active</span>
+          <div class="state-preview">
+            <div class="w-full max-w-xs bg-blue-50 border-2 border-solid border-blue-500 rounded-lg p-4 text-center">
+              <svg class="w-8 h-8 text-blue-600 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+              </svg>
+              <span class="text-sm text-blue-700 font-medium">Drop to upload</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Error -->
+        <div>
+          <span class="state-label error mb-3">Error</span>
+          <div class="state-preview">
+            <div class="w-full max-w-xs bg-red-50 border-2 border-solid border-red-500 rounded-lg p-4 text-center">
+              <svg class="w-8 h-8 text-red-500 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span class="text-sm text-red-700 font-medium">File too large</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== LOADING STATES ========== -->
+    <section id="loading-states" class="state-card">
+      <h2 class="text-2xl font-semibold text-gray-900 mb-6">Loading States</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Spinner Only -->
+        <div>
+          <span class="state-label loading mb-3">Spinner Only</span>
+          <div class="state-preview">
+            <div class="w-6 h-6 spinner"></div>
+          </div>
+          <p class="text-sm text-gray-600">Simple spinner, 24×24px</p>
+        </div>
+
+        <!-- Spinner + Text -->
+        <div>
+          <span class="state-label loading mb-3">With Text</span>
+          <div class="state-preview">
+            <div class="flex items-center gap-3">
+              <div class="w-6 h-6 spinner"></div>
+              <span class="text-sm text-gray-600">Processing...</span>
+            </div>
+          </div>
+          <p class="text-sm text-gray-600">Spinner with label</p>
+        </div>
+
+        <!-- Skeleton Loading -->
+        <div>
+          <span class="state-label loading mb-3">Skeleton</span>
+          <div class="state-preview">
+            <div class="w-full max-w-xs space-y-3">
+              <div class="h-4 bg-gray-200 rounded animate-pulse"></div>
+              <div class="h-4 bg-gray-200 rounded animate-pulse w-3/4"></div>
+              <div class="h-4 bg-gray-200 rounded animate-pulse w-1/2"></div>
+            </div>
+          </div>
+          <p class="text-sm text-gray-600">Skeleton placeholder animation</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== TOAST MESSAGES ========== -->
+    <section id="toast-states" class="state-card">
+      <h2 class="text-2xl font-semibold text-gray-900 mb-6">Toast Notifications</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Success Toast -->
+        <div>
+          <span class="state-label success mb-3">Success</span>
+          <div class="state-preview">
+            <div class="toast bg-white border border-green-200 rounded-lg shadow-lg p-4 flex items-start gap-3 max-w-sm">
+              <div class="flex-shrink-0 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+                <svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <div class="flex-1">
+                <h4 class="text-sm font-semibold text-gray-900">Image exported successfully</h4>
+                <p class="text-xs text-gray-600 mt-1">Your image has been saved to downloads</p>
+              </div>
+              <button class="flex-shrink-0 text-gray-400 hover:text-gray-600">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <p class="text-sm text-gray-600">Green indicator, success message</p>
+        </div>
+
+        <!-- Error Toast -->
+        <div>
+          <span class="state-label error mb-3">Error</span>
+          <div class="state-preview">
+            <div class="toast bg-white border border-red-200 rounded-lg shadow-lg p-4 flex items-start gap-3 max-w-sm">
+              <div class="flex-shrink-0 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
+                <svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </div>
+              <div class="flex-1">
+                <h4 class="text-sm font-semibold text-gray-900">Upload failed</h4>
+                <p class="text-xs text-gray-600 mt-1">File size exceeds 10MB limit</p>
+              </div>
+              <button class="flex-shrink-0 text-gray-400 hover:text-gray-600">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <p class="text-sm text-gray-600">Red indicator, error message</p>
+        </div>
+
+        <!-- Info Toast -->
+        <div>
+          <span class="state-label default mb-3">Info</span>
+          <div class="state-preview">
+            <div class="toast bg-white border border-blue-200 rounded-lg shadow-lg p-4 flex items-start gap-3 max-w-sm">
+              <div class="flex-shrink-0 w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
+                <svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div class="flex-1">
+                <h4 class="text-sm font-semibold text-gray-900">Tip: Use keyboard shortcuts</h4>
+                <p class="text-xs text-gray-600 mt-1">Press Cmd+V to paste images directly</p>
+              </div>
+              <button class="flex-shrink-0 text-gray-400 hover:text-gray-600">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <p class="text-sm text-gray-600">Blue indicator, informational</p>
+        </div>
+
+        <!-- Warning Toast -->
+        <div>
+          <span class="state-label active mb-3">Warning</span>
+          <div class="state-preview">
+            <div class="toast bg-white border border-yellow-200 rounded-lg shadow-lg p-4 flex items-start gap-3 max-w-sm">
+              <div class="flex-shrink-0 w-5 h-5 bg-yellow-500 rounded-full flex items-center justify-center">
+                <svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              </div>
+              <div class="flex-1">
+                <h4 class="text-sm font-semibold text-gray-900">Low image quality</h4>
+                <p class="text-xs text-gray-600 mt-1">Image resolution is below 1080p</p>
+              </div>
+              <button class="flex-shrink-0 text-gray-400 hover:text-gray-600">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <p class="text-sm text-gray-600">Yellow indicator, warning</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== EMPTY STATES ========== -->
+    <section id="empty-states" class="state-card">
+      <h2 class="text-2xl font-semibold text-gray-900 mb-6">Empty States</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- No Image -->
+        <div>
+          <span class="state-label default mb-3">No Image</span>
+          <div class="state-preview bg-gradient-to-br from-gray-100 to-gray-200">
+            <div class="text-center">
+              <div class="w-20 h-20 bg-gray-200 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <svg class="w-10 h-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <h3 class="text-base font-semibold text-gray-900 mb-2">No Image Yet</h3>
+              <p class="text-sm text-gray-500 mb-4">Upload a screenshot to begin</p>
+              <button class="bg-blue-600 text-white px-5 py-2 rounded-lg text-sm font-medium">
+                Upload Screenshot
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- No Background -->
+        <div>
+          <span class="state-label default mb-3">No Custom Background</span>
+          <div class="state-preview">
+            <div class="text-center max-w-xs">
+              <div class="w-16 h-16 bg-gray-200 rounded-xl flex items-center justify-center mx-auto mb-3">
+                <svg class="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <p class="text-sm text-gray-600">No custom background uploaded</p>
+              <p class="text-xs text-gray-400 mt-1">Using gradient preset</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== ERROR STATES ========== -->
+    <section id="error-states" class="state-card">
+      <h2 class="text-2xl font-semibold text-gray-900 mb-6">Error States</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- File Too Large -->
+        <div>
+          <span class="state-label error mb-3">File Too Large</span>
+          <div class="state-preview">
+            <div class="text-center max-w-sm">
+              <div class="w-16 h-16 bg-red-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                <svg class="w-8 h-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 class="text-base font-semibold text-gray-900 mb-2">File size exceeds limit</h3>
+              <p class="text-sm text-red-600 mb-3">Maximum file size is 10MB</p>
+              <button class="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                Try a smaller file
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Unsupported Format -->
+        <div>
+          <span class="state-label error mb-3">Wrong Format</span>
+          <div class="state-preview">
+            <div class="text-center max-w-sm">
+              <div class="w-16 h-16 bg-red-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                <svg class="w-8 h-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                </svg>
+              </div>
+              <h3 class="text-base font-semibold text-gray-900 mb-2">Unsupported file format</h3>
+              <p class="text-sm text-red-600 mb-3">Please use PNG, JPG, or WEBP</p>
+              <button class="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                Choose another file
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Export Failed -->
+        <div>
+          <span class="state-label error mb-3">Export Failed</span>
+          <div class="state-preview">
+            <div class="text-center max-w-sm">
+              <div class="w-16 h-16 bg-red-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                <svg class="w-8 h-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 class="text-base font-semibold text-gray-900 mb-2">Export failed</h3>
+              <p class="text-sm text-red-600 mb-3">Unable to save image. Please try again.</p>
+              <button class="bg-blue-600 text-white px-5 py-2 rounded-lg text-sm font-medium">
+                Retry Export
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Network Error -->
+        <div>
+          <span class="state-label error mb-3">Network Error</span>
+          <div class="state-preview">
+            <div class="text-center max-w-sm">
+              <div class="w-16 h-16 bg-red-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+                <svg class="w-8 h-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636a9 9 0 010 12.728m0 0l-2.829-2.829m2.829 2.829L21 21M15.536 8.464a5 5 0 010 7.072m0 0l-2.829-2.829m-4.243 2.829a4.978 4.978 0 01-1.414-2.83m-1.414 5.658a9 9 0 01-2.167-9.238m7.824 2.167a1 1 0 111.414 1.414m-1.414-1.414L3 3m8.293 8.293l1.414 1.414" />
+                </svg>
+              </div>
+              <h3 class="text-base font-semibold text-gray-900 mb-2">Connection lost</h3>
+              <p class="text-sm text-red-600 mb-3">Check your internet connection</p>
+              <button class="bg-blue-600 text-white px-5 py-2 rounded-lg text-sm font-medium">
+                Retry
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== CANVAS STATES ========== -->
+    <section id="canvas-states" class="state-card">
+      <h2 class="text-2xl font-semibold text-gray-900 mb-6">Canvas Preview States</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Empty Canvas -->
+        <div>
+          <span class="state-label default mb-3">Empty Canvas</span>
+          <div class="state-preview h-64 bg-gradient-to-br from-gray-100 to-gray-200">
+            <div class="text-center">
+              <svg class="w-16 h-16 text-gray-300 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <p class="text-sm text-gray-400">No preview available</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Loaded Canvas -->
+        <div>
+          <span class="state-label success mb-3">Loaded Canvas</span>
+          <div class="state-preview h-64 bg-gradient-to-br from-purple-500 to-pink-500 p-8">
+            <div class="bg-white rounded-lg shadow-xl h-full flex items-center justify-center">
+              <span class="text-gray-400 text-sm">Screenshot Preview</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="mt-16 pt-8 border-t border-gray-200 text-center text-sm text-gray-500">
+      <p>XXXnaper Interaction States · Version 1.0 · Last Updated: 2025-10-27</p>
+      <p class="mt-2">All states follow WCAG 2.1 AA accessibility standards</p>
+    </footer>
+
+  </div>
+
+</body>
+</html>

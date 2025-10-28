@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XXXnaper - Beautiful Screenshot Backgrounds</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+    * {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Design System Variables */
+    :root {
+      --brand-primary: #667eea;
+      --brand-accent: #3b82f6;
+      --text-primary: #1a1a1a;
+      --text-secondary: #737373;
+      --bg-primary: #ffffff;
+      --bg-secondary: #f9fafb;
+    }
+
+    /* Gradient Classes */
+    .gradient-purple-dream {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    .gradient-ocean-breeze {
+      background: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%);
+    }
+    .gradient-sunset-bliss {
+      background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+    }
+    .gradient-peachy-keen {
+      background: linear-gradient(135deg, #ed4264 0%, #ffedbc 100%);
+    }
+
+    /* Annotations */
+    .annotation {
+      position: relative;
+    }
+    .annotation::after {
+      content: attr(data-note);
+      position: absolute;
+      bottom: -24px;
+      left: 0;
+      font-size: 10px;
+      color: #ef4444;
+      font-weight: 600;
+      white-space: nowrap;
+      background: #fef2f2;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid #fca5a5;
+    }
+
+    /* Smooth scroll */
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+
+  <!-- Header -->
+  <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+    <div class="container mx-auto px-4 sm:px-8 lg:px-20 py-4">
+      <div class="flex items-center justify-between">
+        <!-- Logo (40×40px) -->
+        <div class="flex items-center gap-3 annotation" data-note="Logo: 40×40px">
+          <div class="w-10 h-10 rounded-lg gradient-purple-dream flex items-center justify-center">
+            <span class="text-white text-xl font-semibold">X</span>
+          </div>
+          <span class="text-xl font-semibold text-gray-900">XXXnaper</span>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="hidden md:flex items-center gap-8">
+          <a href="#features" class="text-gray-600 hover:text-gray-900 transition">Features</a>
+          <a href="#examples" class="text-gray-600 hover:text-gray-900 transition">Examples</a>
+          <a href="#pricing" class="text-gray-600 hover:text-gray-900 transition">Pricing</a>
+        </nav>
+
+        <!-- CTA Button (44px height) -->
+        <button class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition annotation" data-note="Touch target: 44×44px min">
+          Get Started
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="py-20 lg:py-32">
+    <div class="container mx-auto px-4 sm:px-8 lg:px-20">
+      <div class="max-w-4xl mx-auto text-center">
+        <!-- Hero Title (48px on desktop) -->
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-semibold text-gray-900 mb-6 annotation" data-note="Title: 48px desktop, Inter 600">
+          Beautiful Screenshot<br>Backgrounds in Seconds
+        </h1>
+
+        <!-- Subtitle (18px) -->
+        <p class="text-lg sm:text-xl text-gray-600 mb-8 max-w-2xl mx-auto annotation" data-note="Subtitle: 18px, Inter 400">
+          Transform boring screenshots into stunning visuals with gradient backgrounds, perfect padding, and customizable styles. No design skills required.
+        </p>
+
+        <!-- CTA Buttons (48px height for prominence) -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+          <button class="w-full sm:w-auto bg-blue-600 text-white px-8 py-4 rounded-lg hover:bg-blue-700 transition text-lg font-medium annotation" data-note="Primary CTA: 48px height">
+            Try it Free
+          </button>
+          <button class="w-full sm:w-auto bg-white text-gray-900 px-8 py-4 rounded-lg hover:bg-gray-50 transition text-lg font-medium border border-gray-300">
+            View Demo
+          </button>
+        </div>
+
+        <!-- Preview Image (placeholder showing the app) -->
+        <div class="rounded-2xl overflow-hidden shadow-2xl annotation" data-note="12px border radius for hero elements">
+          <div class="bg-gradient-to-br from-purple-500 to-pink-500 p-8 lg:p-12">
+            <div class="bg-white rounded-xl p-6 shadow-xl">
+              <div class="aspect-video bg-gray-200 rounded-lg flex items-center justify-center">
+                <svg class="w-24 h-24 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <p class="text-sm text-gray-500 mt-4 text-center">App interface preview</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="py-20 bg-white">
+    <div class="container mx-auto px-4 sm:px-8 lg:px-20">
+      <!-- Section Header -->
+      <div class="text-center mb-16">
+        <h2 class="text-3xl lg:text-4xl font-semibold text-gray-900 mb-4">
+          Everything You Need
+        </h2>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+          Professional screenshot beautification with intuitive controls
+        </p>
+      </div>
+
+      <!-- Feature Grid (4 columns on desktop, 2 on tablet, 1 on mobile) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 annotation" data-note="Grid gap: 32px desktop, 16px mobile">
+        <!-- Feature 1 -->
+        <div class="text-center">
+          <div class="w-16 h-16 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Drag & Drop</h3>
+          <p class="text-sm text-gray-600">Upload images instantly with drag-and-drop or paste from clipboard</p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="text-center">
+          <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">15 Gradients</h3>
+          <p class="text-sm text-gray-600">Curated gradient backgrounds across warm, cool, vibrant, and neutral tones</p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="text-center">
+          <div class="w-16 h-16 bg-orange-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Live Preview</h3>
+          <p class="text-sm text-gray-600">Adjust padding, inset, and radius with real-time preview updates</p>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="text-center">
+          <div class="w-16 h-16 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Export Options</h3>
+          <p class="text-sm text-gray-600">Download PNG/JPG, copy to clipboard, or share directly</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Examples Section (Gradient Showcase) -->
+  <section id="examples" class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4 sm:px-8 lg:px-20">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl lg:text-4xl font-semibold text-gray-900 mb-4">
+          15 Beautiful Gradients
+        </h2>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+          Professionally curated gradient backgrounds for every mood
+        </p>
+      </div>
+
+      <!-- Gradient Grid (5 columns × 3 rows on desktop) -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 max-w-4xl mx-auto annotation" data-note="Swatches: 44×44px minimum for touch targets">
+        <!-- Purple Dream -->
+        <button class="aspect-square rounded-lg gradient-purple-dream hover:scale-105 transition-transform shadow-md hover:shadow-lg">
+          <span class="sr-only">Purple Dream gradient</span>
+        </button>
+
+        <!-- Ocean Breeze -->
+        <button class="aspect-square rounded-lg gradient-ocean-breeze hover:scale-105 transition-transform shadow-md hover:shadow-lg">
+          <span class="sr-only">Ocean Breeze gradient</span>
+        </button>
+
+        <!-- Midnight Blue -->
+        <button class="aspect-square rounded-lg bg-gradient-to-br from-[#141e30] to-[#243b55] hover:scale-105 transition-transform shadow-md hover:shadow-lg">
+          <span class="sr-only">Midnight Blue gradient</span>
+        </button>
+
+        <!-- Cool Mint -->
+        <button class="aspect-square rounded-lg bg-gradient-to-br from-[#02aab0] to-[#00cdac] hover:scale-105 transition-transform shadow-md hover:shadow-lg">
+          <span class="sr-only">Cool Mint gradient</span>
+        </button>
+
+        <!-- Sunset Bliss -->
+        <button class="aspect-square rounded-lg gradient-sunset-bliss hover:scale-105 transition-transform shadow-md hover:shadow-lg">
+          <span class="sr-only">Sunset Bliss gradient</span>
+        </button>
+
+        <!-- Peachy Keen -->
+        <button class="aspect-square rounded-lg gradient-peachy-keen hover:scale-105 transition-transform shadow-md hover:shadow-lg">
+          <span class="sr-only">Peachy Keen gradient</span>
+        </button>
+
+        <!-- Sweet Morning -->
+        <button class="aspect-square rounded-lg bg-gradient-to-br from-[#ff5f6d] to-[#ffc371] hover:scale-105 transition-transform shadow-md hover:shadow-lg">
+          <span class="sr-only">Sweet Morning gradient</span>
+        </button>
+
+        <!-- Orange Coral -->
+        <button class="aspect-square rounded-lg bg-gradient-to-br from-[#ff9966] to-[#ff5e62] hover:scale-105 transition-transform shadow-md hover:shadow-lg">
+          <span class="sr-only">Orange Coral gradient</span>
+        </button>
+
+        <!-- Purple Love -->
+        <button class="aspect-square rounded-lg bg-gradient-to-br from-[#cc2b5e] to-[#753a88] hover:scale-105 transition-transform shadow-md hover:shadow-lg">
+          <span class="sr-only">Purple Love gradient</span>
+        </button>
+
+        <!-- Bloody Mary -->
+        <button class="aspect-square rounded-lg bg-gradient-to-br from-[#ff512f] to-[#dd2476] hover:scale-105 transition-transform shadow-md hover:shadow-lg">
+          <span class="sr-only">Bloody Mary gradient</span>
+        </button>
+
+        <!-- Cosmic Night -->
+        <button class="aspect-square rounded-lg bg-gradient-to-br from-[#4568dc] to-[#b06ab3] hover:scale-105 transition-transform shadow-md hover:shadow-lg">
+          <span class="sr-only">Cosmic Night gradient</span>
+        </button>
+
+        <!-- Lush Green -->
+        <button class="aspect-square rounded-lg bg-gradient-to-br from-[#56ab2f] to-[#a8e063] hover:scale-105 transition-transform shadow-md hover:shadow-lg">
+          <span class="sr-only">Lush Green gradient</span>
+        </button>
+
+        <!-- Soft Pink -->
+        <button class="aspect-square rounded-lg bg-gradient-to-br from-[#ee9ca7] to-[#ffdde1] hover:scale-105 transition-transform shadow-md hover:shadow-lg">
+          <span class="sr-only">Soft Pink gradient</span>
+        </button>
+
+        <!-- Pale Wood -->
+        <button class="aspect-square rounded-lg bg-gradient-to-br from-[#eacda3] to-[#d6ae7b] hover:scale-105 transition-transform shadow-md hover:shadow-lg">
+          <span class="sr-only">Pale Wood gradient</span>
+        </button>
+
+        <!-- Decent Gray -->
+        <button class="aspect-square rounded-lg bg-gradient-to-br from-[#4ca1af] to-[#c4e0e5] hover:scale-105 transition-transform shadow-md hover:shadow-lg">
+          <span class="sr-only">Decent Gray gradient</span>
+        </button>
+      </div>
+
+      <!-- CTA -->
+      <div class="text-center mt-12">
+        <button class="bg-blue-600 text-white px-8 py-4 rounded-lg hover:bg-blue-700 transition text-lg font-medium">
+          Start Creating
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-gray-200 py-12">
+    <div class="container mx-auto px-4 sm:px-8 lg:px-20">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg gradient-purple-dream flex items-center justify-center">
+            <span class="text-white text-sm font-semibold">X</span>
+          </div>
+          <span class="text-sm text-gray-600">© 2025 XXXnaper. All rights reserved.</span>
+        </div>
+        <div class="flex gap-6">
+          <a href="#" class="text-gray-600 hover:text-gray-900 text-sm transition">Privacy</a>
+          <a href="#" class="text-gray-600 hover:text-gray-900 text-sm transition">Terms</a>
+          <a href="#" class="text-gray-600 hover:text-gray-900 text-sm transition">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Annotations Legend (Bottom Right) -->
+  <div class="fixed bottom-4 right-4 bg-white border border-gray-300 rounded-lg p-4 shadow-lg max-w-xs text-xs">
+    <h4 class="font-semibold text-gray-900 mb-2">Design Annotations</h4>
+    <ul class="space-y-1 text-gray-600">
+      <li>• Touch targets: 44×44px minimum</li>
+      <li>• Font: Inter (400, 500, 600)</li>
+      <li>• Spacing: 4px base unit (8px, 16px, 24px, 32px)</li>
+      <li>• Border radius: 8px (buttons/cards), 12px (modals)</li>
+      <li>• Colors: WCAG AA compliant (4.5:1)</li>
+    </ul>
+  </div>
+
+</body>
+</html>

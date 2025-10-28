@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XXXnaper - Component Library</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+    * {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background: #f9fafb;
+    }
+
+    /* Design System Variables */
+    :root {
+      --brand-primary: #667eea;
+      --brand-accent: #3b82f6;
+      --text-primary: #1a1a1a;
+      --text-secondary: #737373;
+      --bg-primary: #ffffff;
+      --border-default: #e5e5e5;
+    }
+
+    /* Gradient Classes */
+    .gradient-1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .gradient-2 { background: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%); }
+    .gradient-5 { background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%); }
+
+    /* Custom Slider */
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 44px;
+      background: transparent;
+      cursor: pointer;
+    }
+    input[type="range"]::-webkit-slider-track {
+      height: 4px;
+      background: #e5e5e5;
+      border-radius: 2px;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #3b82f6;
+      cursor: grab;
+      margin-top: -8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      transition: transform 150ms ease;
+    }
+    input[type="range"]:active::-webkit-slider-thumb {
+      cursor: grabbing;
+      transform: scale(1.1);
+    }
+
+    /* Code Block Styling */
+    .code-block {
+      background: #1f2937;
+      color: #f9fafb;
+      padding: 16px;
+      border-radius: 8px;
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      overflow-x: auto;
+      margin-top: 12px;
+    }
+
+    .code-block .comment { color: #9ca3af; }
+    .code-block .tag { color: #60a5fa; }
+    .code-block .attr { color: #a78bfa; }
+    .code-block .value { color: #34d399; }
+
+    /* Component Showcase Card */
+    .component-card {
+      background: white;
+      border: 1px solid #e5e5e5;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 32px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .component-preview {
+      background: #fafafa;
+      border: 1px dashed #d4d4d4;
+      border-radius: 8px;
+      padding: 32px;
+      margin-bottom: 16px;
+      min-height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Spec Table */
+    .spec-table {
+      width: 100%;
+      margin-top: 16px;
+      font-size: 14px;
+    }
+    .spec-table th {
+      text-align: left;
+      padding: 8px;
+      background: #f9fafb;
+      font-weight: 600;
+      color: #374151;
+      border-bottom: 2px solid #e5e5e5;
+    }
+    .spec-table td {
+      padding: 8px;
+      border-bottom: 1px solid #e5e5e5;
+      color: #6b7280;
+    }
+    .spec-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Swatch Selection */
+    .swatch-selected {
+      box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #3b82f6;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="max-w-7xl mx-auto px-8 py-12">
+
+    <!-- Header -->
+    <header class="mb-12">
+      <h1 class="text-4xl font-semibold text-gray-900 mb-4">XXXnaper Component Library</h1>
+      <p class="text-lg text-gray-600">
+        Production-ready components with specs, code snippets, and usage guidelines.
+      </p>
+    </header>
+
+    <!-- Table of Contents -->
+    <nav class="bg-white border border-gray-200 rounded-lg p-6 mb-12">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">Components</h2>
+      <ul class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+        <li><a href="#buttons" class="text-blue-600 hover:underline">1. Buttons</a></li>
+        <li><a href="#sliders" class="text-blue-600 hover:underline">2. Sliders</a></li>
+        <li><a href="#swatches" class="text-blue-600 hover:underline">3. Color Swatches</a></li>
+        <li><a href="#file-input" class="text-blue-600 hover:underline">4. File Input</a></li>
+        <li><a href="#loading" class="text-blue-600 hover:underline">5. Loading States</a></li>
+        <li><a href="#tooltips" class="text-blue-600 hover:underline">6. Tooltips</a></li>
+        <li><a href="#cards" class="text-blue-600 hover:underline">7. Cards</a></li>
+        <li><a href="#icons" class="text-blue-600 hover:underline">8. Icons</a></li>
+      </ul>
+    </nav>
+
+    <!-- ========== 1. BUTTONS ========== -->
+    <section id="buttons" class="component-card">
+      <h2 class="text-2xl font-semibold text-gray-900 mb-6">1. Buttons</h2>
+
+      <!-- Primary Button -->
+      <div class="mb-8">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Primary Button</h3>
+        <div class="component-preview">
+          <button class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition font-medium min-h-[44px]">
+            Download PNG
+          </button>
+        </div>
+        <table class="spec-table">
+          <thead>
+            <tr>
+              <th>Property</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Height</td><td>44px minimum</td></tr>
+            <tr><td>Padding</td><td>12px 24px</td></tr>
+            <tr><td>Border Radius</td><td>8px</td></tr>
+            <tr><td>Font Size</td><td>16px (1rem)</td></tr>
+            <tr><td>Font Weight</td><td>500 (medium)</td></tr>
+            <tr><td>Background</td><td>#3b82f6 (blue-600)</td></tr>
+            <tr><td>Hover</td><td>#2563eb (blue-700)</td></tr>
+            <tr><td>Transition</td><td>150ms ease</td></tr>
+          </tbody>
+        </table>
+        <div class="code-block">
+<span class="comment">// Svelte Component</span>
+<span class="tag">&lt;button</span>
+  <span class="attr">class</span>=<span class="value">"bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition font-medium min-h-[44px]"</span>
+<span class="tag">&gt;</span>
+  Download PNG
+<span class="tag">&lt;/button&gt;</span>
+        </div>
+      </div>
+
+      <!-- Secondary Button -->
+      <div class="mb-8">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Secondary Button</h3>
+        <div class="component-preview">
+          <button class="bg-white border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition font-medium min-h-[44px]">
+            Copy to Clipboard
+          </button>
+        </div>
+        <table class="spec-table">
+          <thead>
+            <tr>
+              <th>Property</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Background</td><td>#ffffff</td></tr>
+            <tr><td>Border</td><td>1px solid #d4d4d4</td></tr>
+            <tr><td>Text Color</td><td>#1a1a1a</td></tr>
+            <tr><td>Hover Background</td><td>#f5f5f5</td></tr>
+          </tbody>
+        </table>
+        <div class="code-block">
+<span class="tag">&lt;button</span>
+  <span class="attr">class</span>=<span class="value">"bg-white border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition font-medium min-h-[44px]"</span>
+<span class="tag">&gt;</span>
+  Copy to Clipboard
+<span class="tag">&lt;/button&gt;</span>
+        </div>
+      </div>
+
+      <!-- Icon Button -->
+      <div>
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Icon Button</h3>
+        <div class="component-preview">
+          <button class="w-11 h-11 flex items-center justify-center rounded-lg bg-transparent hover:bg-gray-100 transition" aria-label="Settings">
+            <svg class="w-6 h-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </button>
+        </div>
+        <table class="spec-table">
+          <thead>
+            <tr>
+              <th>Property</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Size</td><td>44×44px (touch target)</td></tr>
+            <tr><td>Icon Size</td><td>24×24px</td></tr>
+            <tr><td>Border Radius</td><td>8px</td></tr>
+            <tr><td>Hover Background</td><td>#f5f5f5</td></tr>
+          </tbody>
+        </table>
+        <div class="code-block">
+<span class="tag">&lt;button</span>
+  <span class="attr">class</span>=<span class="value">"w-11 h-11 flex items-center justify-center rounded-lg bg-transparent hover:bg-gray-100 transition"</span>
+  <span class="attr">aria-label</span>=<span class="value">"Settings"</span>
+<span class="tag">&gt;</span>
+  <span class="tag">&lt;svg</span> <span class="attr">class</span>=<span class="value">"w-6 h-6"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/svg&gt;</span>
+<span class="tag">&lt;/button&gt;</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 2. SLIDERS ========== -->
+    <section id="sliders" class="component-card">
+      <h2 class="text-2xl font-semibold text-gray-900 mb-6">2. Sliders</h2>
+
+      <div class="component-preview">
+        <div class="w-full max-w-md">
+          <label class="block">
+            <div class="flex justify-between items-center mb-2">
+              <span class="text-sm font-medium text-gray-900">Padding</span>
+              <span id="demo-value" class="text-sm font-medium text-blue-600 tabular-nums">40px</span>
+            </div>
+            <input
+              type="range"
+              id="demo-slider"
+              min="0"
+              max="200"
+              value="40"
+              oninput="document.getElementById('demo-value').textContent = this.value + 'px'"
+            />
+          </label>
+        </div>
+      </div>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Touch Area Height</td><td>44px</td></tr>
+          <tr><td>Track Height</td><td>4px</td></tr>
+          <tr><td>Track Color</td><td>#e5e5e5</td></tr>
+          <tr><td>Thumb Size</td><td>20×20px</td></tr>
+          <tr><td>Thumb Color</td><td>#3b82f6</td></tr>
+          <tr><td>Label Font Size</td><td>14px</td></tr>
+          <tr><td>Value Font Weight</td><td>500 (medium)</td></tr>
+          <tr><td>Spacing (label to slider)</td><td>8px</td></tr>
+        </tbody>
+      </table>
+
+      <div class="code-block">
+<span class="tag">&lt;label</span> <span class="attr">class</span>=<span class="value">"block"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="value">"flex justify-between items-center mb-2"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="value">"text-sm font-medium text-gray-900"</span><span class="tag">&gt;</span>Padding<span class="tag">&lt;/span&gt;</span>
+    <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="value">"text-sm font-medium text-blue-600 tabular-nums"</span><span class="tag">&gt;</span>{value}px<span class="tag">&lt;/span&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="value">"range"</span> <span class="attr">min</span>=<span class="value">"0"</span> <span class="attr">max</span>=<span class="value">"200"</span> <span class="attr">bind:value</span>=<span class="value">{value}</span> <span class="tag">/&gt;</span>
+<span class="tag">&lt;/label&gt;</span>
+      </div>
+    </section>
+
+    <!-- ========== 3. COLOR SWATCHES ========== -->
+    <section id="swatches" class="component-card">
+      <h2 class="text-2xl font-semibold text-gray-900 mb-6">3. Color Swatches</h2>
+
+      <div class="component-preview">
+        <div class="flex gap-2">
+          <button class="gradient-1 rounded-lg swatch-selected transition-transform hover:scale-105" style="width: 44px; height: 44px;" aria-label="Purple Dream"></button>
+          <button class="gradient-2 rounded-lg transition-transform hover:scale-105" style="width: 44px; height: 44px;" aria-label="Ocean Breeze"></button>
+          <button class="gradient-5 rounded-lg transition-transform hover:scale-105" style="width: 44px; height: 44px;" aria-label="Sunset Bliss"></button>
+        </div>
+      </div>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Size (Mobile)</td><td>44×44px</td></tr>
+          <tr><td>Size (Desktop)</td><td>48×48px</td></tr>
+          <tr><td>Border Radius</td><td>8px</td></tr>
+          <tr><td>Gap</td><td>8px</td></tr>
+          <tr><td>Border (unselected)</td><td>2px solid transparent</td></tr>
+          <tr><td>Border (selected)</td><td>4px solid #3b82f6 with 2px white inner ring</td></tr>
+          <tr><td>Hover Scale</td><td>1.05</td></tr>
+          <tr><td>Active Scale</td><td>0.95</td></tr>
+        </tbody>
+      </table>
+
+      <div class="code-block">
+<span class="tag">&lt;button</span>
+  <span class="attr">class</span>=<span class="value">"w-11 h-11 rounded-lg gradient-1 transition-transform hover:scale-105 active:scale-95"</span>
+  <span class="attr">class:swatch-selected</span>=<span class="value">{selected === 1}</span>
+  <span class="attr">aria-label</span>=<span class="value">"Purple Dream gradient"</span>
+  <span class="attr">on:click</span>=<span class="value">{() => selectGradient(1)}</span>
+<span class="tag">&gt;&lt;/button&gt;</span>
+
+<span class="comment">/* CSS */</span>
+<span class="value">.swatch-selected {
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #3b82f6;
+}</span>
+      </div>
+    </section>
+
+    <!-- ========== 4. FILE INPUT ========== -->
+    <section id="file-input" class="component-card">
+      <h2 class="text-2xl font-semibold text-gray-900 mb-6">4. File Input Zone</h2>
+
+      <div class="component-preview">
+        <button class="w-full max-w-md bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg p-6 hover:bg-gray-50 hover:border-blue-500 transition flex flex-col items-center justify-center gap-2">
+          <svg class="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+          </svg>
+          <span class="text-sm font-medium text-gray-600">Upload Custom Background</span>
+          <span class="text-xs text-gray-400">PNG, JPG up to 10MB</span>
+        </button>
+      </div>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Min Height</td><td>120px (mobile), 200px (desktop)</td></tr>
+          <tr><td>Padding</td><td>24px (mobile), 32px (desktop)</td></tr>
+          <tr><td>Border</td><td>2px dashed #d4d4d4</td></tr>
+          <tr><td>Border Radius</td><td>12px</td></tr>
+          <tr><td>Background</td><td>#f9fafb</td></tr>
+          <tr><td>Hover Border</td><td>#3b82f6</td></tr>
+          <tr><td>Hover Background</td><td>#f5f5f5</td></tr>
+          <tr><td>Active Border</td><td>Solid (not dashed)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="code-block">
+<span class="tag">&lt;button</span>
+  <span class="attr">class</span>=<span class="value">"w-full bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg p-6
+         hover:bg-gray-50 hover:border-blue-500 transition
+         flex flex-col items-center justify-center gap-2"</span>
+<span class="tag">&gt;</span>
+  <span class="tag">&lt;svg</span> <span class="attr">class</span>=<span class="value">"w-8 h-8 text-gray-400"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/svg&gt;</span>
+  <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="value">"text-sm font-medium text-gray-600"</span><span class="tag">&gt;</span>Upload Image<span class="tag">&lt;/span&gt;</span>
+<span class="tag">&lt;/button&gt;</span>
+      </div>
+    </section>
+
+    <!-- ========== 5. LOADING STATES ========== -->
+    <section id="loading" class="component-card">
+      <h2 class="text-2xl font-semibold text-gray-900 mb-6">5. Loading States</h2>
+
+      <div class="component-preview">
+        <div class="flex items-center gap-3">
+          <!-- Spinner -->
+          <div class="w-6 h-6 border-3 border-gray-200 border-t-blue-600 rounded-full animate-spin"></div>
+          <span class="text-sm text-gray-600">Processing...</span>
+        </div>
+      </div>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Spinner Size</td><td>24×24px (default), 16px (small), 32px (large)</td></tr>
+          <tr><td>Border Width</td><td>3px</td></tr>
+          <tr><td>Border Color</td><td>#e5e5e5 (base), #3b82f6 (active)</td></tr>
+          <tr><td>Animation</td><td>spin 0.8s linear infinite</td></tr>
+        </tbody>
+      </table>
+
+      <div class="code-block">
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="value">"flex items-center gap-3"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="value">"w-6 h-6 border-3 border-gray-200 border-t-blue-600 rounded-full animate-spin"</span><span class="tag">&gt;&lt;/div&gt;</span>
+  <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="value">"text-sm text-gray-600"</span><span class="tag">&gt;</span>Processing...<span class="tag">&lt;/span&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+      </div>
+    </section>
+
+    <!-- ========== 6. TOOLTIPS ========== -->
+    <section id="tooltips" class="component-card">
+      <h2 class="text-2xl font-semibold text-gray-900 mb-6">6. Tooltips</h2>
+
+      <div class="component-preview">
+        <div class="relative inline-block">
+          <button class="bg-blue-600 text-white px-4 py-2 rounded-lg">Hover me</button>
+          <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded shadow-lg whitespace-nowrap">
+            Click to download
+            <div class="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+          </div>
+        </div>
+      </div>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Padding</td><td>8px 12px</td></tr>
+          <tr><td>Font Size</td><td>12px</td></tr>
+          <tr><td>Background</td><td>#1a1a1a (90% opacity)</td></tr>
+          <tr><td>Text Color</td><td>#ffffff</td></tr>
+          <tr><td>Border Radius</td><td>6px</td></tr>
+          <tr><td>Arrow Size</td><td>4px</td></tr>
+          <tr><td>Offset</td><td>8px from target</td></tr>
+        </tbody>
+      </table>
+
+      <div class="code-block">
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="value">"relative"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;button&gt;</span>Hover me<span class="tag">&lt;/button&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="value">"absolute bottom-full left-1/2 -translate-x-1/2 mb-2
+              px-3 py-2 bg-gray-900 text-white text-xs rounded shadow-lg"</span><span class="tag">&gt;</span>
+    Tooltip text
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+      </div>
+    </section>
+
+    <!-- ========== 7. CARDS ========== -->
+    <section id="cards" class="component-card">
+      <h2 class="text-2xl font-semibold text-gray-900 mb-6">7. Cards</h2>
+
+      <div class="component-preview">
+        <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition max-w-sm">
+          <h3 class="text-lg font-semibold text-gray-900 mb-2">Card Title</h3>
+          <p class="text-sm text-gray-600">
+            Card content goes here. This is a basic card component with title and description.
+          </p>
+        </div>
+      </div>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Background</td><td>#ffffff</td></tr>
+          <tr><td>Border</td><td>1px solid #e5e5e5</td></tr>
+          <tr><td>Border Radius</td><td>12px</td></tr>
+          <tr><td>Padding</td><td>16px (mobile), 24px (desktop)</td></tr>
+          <tr><td>Shadow</td><td>0 1px 3px rgba(0,0,0,0.05)</td></tr>
+          <tr><td>Hover Shadow</td><td>0 4px 6px rgba(0,0,0,0.1)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="code-block">
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="value">"bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;h3</span> <span class="attr">class</span>=<span class="value">"text-lg font-semibold text-gray-900 mb-2"</span><span class="tag">&gt;</span>Card Title<span class="tag">&lt;/h3&gt;</span>
+  <span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="value">"text-sm text-gray-600"</span><span class="tag">&gt;</span>Card content...<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+      </div>
+    </section>
+
+    <!-- ========== 8. ICONS ========== -->
+    <section id="icons" class="component-card">
+      <h2 class="text-2xl font-semibold text-gray-900 mb-6">8. Icons</h2>
+
+      <div class="component-preview">
+        <div class="flex gap-4">
+          <!-- Download Icon -->
+          <svg class="w-6 h-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+          <!-- Copy Icon -->
+          <svg class="w-6 h-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+          <!-- Upload Icon -->
+          <svg class="w-6 h-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+          </svg>
+        </div>
+      </div>
+
+      <table class="spec-table">
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Library</td><td>Heroicons (Outline style)</td></tr>
+          <tr><td>Size</td><td>24×24px (default), 16px (small), 32px (large)</td></tr>
+          <tr><td>Stroke Width</td><td>2px</td></tr>
+          <tr><td>Color</td><td>Inherit from parent</td></tr>
+        </tbody>
+      </table>
+
+      <div class="code-block">
+<span class="tag">&lt;svg</span>
+  <span class="attr">class</span>=<span class="value">"w-6 h-6 text-gray-600"</span>
+  <span class="attr">fill</span>=<span class="value">"none"</span>
+  <span class="attr">viewBox</span>=<span class="value">"0 0 24 24"</span>
+  <span class="attr">stroke</span>=<span class="value">"currentColor"</span>
+<span class="tag">&gt;</span>
+  <span class="tag">&lt;path</span> <span class="attr">stroke-linecap</span>=<span class="value">"round"</span> <span class="attr">stroke-linejoin</span>=<span class="value">"round"</span> <span class="attr">stroke-width</span>=<span class="value">"2"</span> <span class="attr">d</span>=<span class="value">"..."</span> <span class="tag">/&gt;</span>
+<span class="tag">&lt;/svg&gt;</span>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="mt-16 pt-8 border-t border-gray-200 text-center text-sm text-gray-500">
+      <p>XXXnaper Component Library · Version 1.0 · Last Updated: 2025-10-27</p>
+    </footer>
+
+  </div>
+
+</body>
+</html>

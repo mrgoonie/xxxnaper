@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XXXnaper - Tablet App (768px)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+    * {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Force tablet viewport */
+    body {
+      max-width: 768px;
+      margin: 0 auto;
+      background: #f5f5f5;
+    }
+
+    /* Design System Variables */
+    :root {
+      --brand-primary: #667eea;
+      --brand-accent: #3b82f6;
+      --text-primary: #1a1a1a;
+      --text-secondary: #737373;
+      --bg-primary: #ffffff;
+      --bg-canvas: #fafafa;
+      --border-default: #e5e5e5;
+    }
+
+    /* Gradient Presets (All 15) */
+    .gradient-1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .gradient-2 { background: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%); }
+    .gradient-3 { background: linear-gradient(135deg, #141e30 0%, #243b55 100%); }
+    .gradient-4 { background: linear-gradient(135deg, #02aab0 0%, #00cdac 100%); }
+    .gradient-5 { background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%); }
+    .gradient-6 { background: linear-gradient(135deg, #ed4264 0%, #ffedbc 100%); }
+    .gradient-7 { background: linear-gradient(135deg, #ff5f6d 0%, #ffc371 100%); }
+    .gradient-8 { background: linear-gradient(135deg, #ff9966 0%, #ff5e62 100%); }
+    .gradient-9 { background: linear-gradient(135deg, #cc2b5e 0%, #753a88 100%); }
+    .gradient-10 { background: linear-gradient(135deg, #ff512f 0%, #dd2476 100%); }
+    .gradient-11 { background: linear-gradient(135deg, #4568dc 0%, #b06ab3 100%); }
+    .gradient-12 { background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%); }
+    .gradient-13 { background: linear-gradient(135deg, #ee9ca7 0%, #ffdde1 100%); }
+    .gradient-14 { background: linear-gradient(135deg, #eacda3 0%, #d6ae7b 100%); }
+    .gradient-15 { background: linear-gradient(135deg, #4ca1af 0%, #c4e0e5 100%); }
+
+    /* Custom Slider Styling */
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 44px;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-webkit-slider-track {
+      height: 4px;
+      background: #e5e5e5;
+      border-radius: 2px;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #3b82f6;
+      cursor: grab;
+      margin-top: -8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      transition: transform 150ms ease;
+    }
+
+    input[type="range"]:active::-webkit-slider-thumb {
+      cursor: grabbing;
+      transform: scale(1.1);
+    }
+
+    input[type="range"]::-moz-range-track {
+      height: 4px;
+      background: #e5e5e5;
+      border-radius: 2px;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border: none;
+      border-radius: 50%;
+      background: #3b82f6;
+      cursor: grab;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Annotation Markers */
+    .measure {
+      position: relative;
+    }
+    .measure::before {
+      content: attr(data-note);
+      position: absolute;
+      top: -24px;
+      left: 0;
+      font-size: 10px;
+      color: #ef4444;
+      font-weight: 600;
+      background: #fef2f2;
+      padding: 2px 6px;
+      border-radius: 4px;
+      white-space: nowrap;
+      z-index: 100;
+    }
+
+    /* Canvas Preview */
+    .canvas-preview {
+      transition: all 300ms ease;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07), 0 10px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Swatch Selection */
+    .swatch-selected {
+      box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #3b82f6;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Tablet App Layout: Canvas (top 65vh) + Bottom Panel (bottom 35vh) -->
+  <div class="flex flex-col h-screen bg-white">
+
+    <!-- ========== CANVAS AREA (65vh) ========== -->
+    <div class="flex-1 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center measure" data-note="24px padding tablet" style="background: var(--bg-canvas); padding: 24px;">
+
+      <!-- Empty State -->
+      <div id="empty-state" class="text-center max-w-md">
+        <div class="w-24 h-24 bg-gray-200 rounded-2xl flex items-center justify-center mx-auto mb-6">
+          <svg class="w-12 h-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-3">No Image Uploaded</h3>
+        <p class="text-base text-gray-500 mb-8">Drag and drop a screenshot or click to upload</p>
+        <button class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition font-medium text-base measure" data-note="44×44px touch target">
+          Upload Screenshot
+        </button>
+      </div>
+
+      <!-- Loaded State (Hidden by default) -->
+      <div id="loaded-state" class="hidden w-full h-full flex items-center justify-center">
+        <div id="preview-container" class="relative" style="padding: 60px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px;">
+          <img
+            id="preview-image"
+            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23ffffff' width='400' height='300' rx='8'/%3E%3Ctext x='50%25' y='50%25' font-family='Arial' font-size='16' fill='%23999' text-anchor='middle' dominant-baseline='middle'%3EScreenshot Preview (Tablet)%3C/text%3E%3C/svg%3E"
+            alt="Screenshot preview"
+            class="canvas-preview max-w-full max-h-full"
+            style="border-radius: 8px;"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== CONTROL PANEL (Bottom Panel, 35vh) ========== -->
+    <div class="bg-white border-t border-gray-200 overflow-y-auto measure" data-note="24px padding" style="max-height: 35vh; padding: 24px;">
+
+      <div class="max-w-4xl mx-auto">
+
+        <!-- Two-Column Layout for Controls -->
+        <div class="grid grid-cols-2 gap-8 mb-6">
+
+          <!-- Left Column: Gradient Swatches + Upload -->
+          <div>
+            <!-- Gradient Swatches (Wrapped Grid) -->
+            <div class="mb-6">
+              <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-3 measure" data-note="12px spacing">Background Gradient</h3>
+              <div class="grid grid-cols-5 gap-2">
+                <button class="gradient-1 rounded-lg swatch-selected transition-transform hover:scale-105 active:scale-95 measure" data-note="44×44px swatch" style="width: 44px; height: 44px;" onclick="selectGradient(1)" aria-label="Purple Dream"></button>
+                <button class="gradient-2 rounded-lg transition-transform hover:scale-105 active:scale-95" style="width: 44px; height: 44px;" onclick="selectGradient(2)" aria-label="Ocean Breeze"></button>
+                <button class="gradient-3 rounded-lg transition-transform hover:scale-105 active:scale-95" style="width: 44px; height: 44px;" onclick="selectGradient(3)" aria-label="Midnight Blue"></button>
+                <button class="gradient-4 rounded-lg transition-transform hover:scale-105 active:scale-95" style="width: 44px; height: 44px;" onclick="selectGradient(4)" aria-label="Cool Mint"></button>
+                <button class="gradient-5 rounded-lg transition-transform hover:scale-105 active:scale-95" style="width: 44px; height: 44px;" onclick="selectGradient(5)" aria-label="Sunset Bliss"></button>
+                <button class="gradient-6 rounded-lg transition-transform hover:scale-105 active:scale-95" style="width: 44px; height: 44px;" onclick="selectGradient(6)" aria-label="Peachy Keen"></button>
+                <button class="gradient-7 rounded-lg transition-transform hover:scale-105 active:scale-95" style="width: 44px; height: 44px;" onclick="selectGradient(7)" aria-label="Sweet Morning"></button>
+                <button class="gradient-8 rounded-lg transition-transform hover:scale-105 active:scale-95" style="width: 44px; height: 44px;" onclick="selectGradient(8)" aria-label="Orange Coral"></button>
+                <button class="gradient-9 rounded-lg transition-transform hover:scale-105 active:scale-95" style="width: 44px; height: 44px;" onclick="selectGradient(9)" aria-label="Purple Love"></button>
+                <button class="gradient-10 rounded-lg transition-transform hover:scale-105 active:scale-95" style="width: 44px; height: 44px;" onclick="selectGradient(10)" aria-label="Bloody Mary"></button>
+                <button class="gradient-11 rounded-lg transition-transform hover:scale-105 active:scale-95" style="width: 44px; height: 44px;" onclick="selectGradient(11)" aria-label="Cosmic Night"></button>
+                <button class="gradient-12 rounded-lg transition-transform hover:scale-105 active:scale-95" style="width: 44px; height: 44px;" onclick="selectGradient(12)" aria-label="Lush Green"></button>
+                <button class="gradient-13 rounded-lg transition-transform hover:scale-105 active:scale-95" style="width: 44px; height: 44px;" onclick="selectGradient(13)" aria-label="Soft Pink"></button>
+                <button class="gradient-14 rounded-lg transition-transform hover:scale-105 active:scale-95" style="width: 44px; height: 44px;" onclick="selectGradient(14)" aria-label="Pale Wood"></button>
+                <button class="gradient-15 rounded-lg transition-transform hover:scale-105 active:scale-95" style="width: 44px; height: 44px;" onclick="selectGradient(15)" aria-label="Decent Gray"></button>
+              </div>
+            </div>
+
+            <!-- Upload Custom Background -->
+            <div>
+              <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-widest mb-3">Custom Background</h3>
+              <button class="w-full bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg p-4 hover:bg-gray-50 hover:border-blue-500 transition flex items-center justify-center gap-2" style="min-height: 60px;">
+                <svg class="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                </svg>
+                <span class="text-sm font-medium text-gray-600">Upload Image</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Right Column: Sliders -->
+          <div class="space-y-4">
+            <!-- Padding Slider -->
+            <div>
+              <label class="block">
+                <div class="flex justify-between items-center mb-2">
+                  <span class="text-sm font-medium text-gray-900">Padding</span>
+                  <span id="padding-value" class="text-sm font-medium text-blue-600 tabular-nums">60px</span>
+                </div>
+                <input
+                  type="range"
+                  id="padding-slider"
+                  min="0"
+                  max="200"
+                  value="60"
+                  aria-label="Padding slider"
+                  oninput="updatePadding(this.value)"
+                />
+              </label>
+            </div>
+
+            <!-- Inset Slider -->
+            <div>
+              <label class="block">
+                <div class="flex justify-between items-center mb-2">
+                  <span class="text-sm font-medium text-gray-900">Inset</span>
+                  <span id="inset-value" class="text-sm font-medium text-blue-600 tabular-nums">0px</span>
+                </div>
+                <input
+                  type="range"
+                  id="inset-slider"
+                  min="0"
+                  max="100"
+                  value="0"
+                  aria-label="Inset slider"
+                  oninput="updateInset(this.value)"
+                />
+              </label>
+            </div>
+
+            <!-- Border Radius Slider -->
+            <div>
+              <label class="block">
+                <div class="flex justify-between items-center mb-2">
+                  <span class="text-sm font-medium text-gray-900">Border Radius</span>
+                  <span id="radius-value" class="text-sm font-medium text-blue-600 tabular-nums">8px</span>
+                </div>
+                <input
+                  type="range"
+                  id="radius-slider"
+                  min="0"
+                  max="50"
+                  value="8"
+                  aria-label="Border radius slider"
+                  oninput="updateRadius(this.value)"
+                />
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons (Full Width) -->
+        <div class="grid grid-cols-3 gap-3 measure" data-note="12px gap">
+          <button class="bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition font-medium text-base flex items-center justify-center gap-2">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            <span>Download PNG</span>
+          </button>
+          <button class="bg-white border border-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-50 transition font-medium text-base flex items-center justify-center gap-2">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+            <span>Copy to Clipboard</span>
+          </button>
+          <button class="bg-white border border-gray-300 text-gray-700 py-3 rounded-lg hover:bg-gray-50 transition font-medium text-base flex items-center justify-center gap-2">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+            </svg>
+            <span>Share</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Annotation Legend -->
+  <div class="fixed bottom-4 right-4 bg-white border border-gray-300 rounded-lg p-3 shadow-lg max-w-xs text-xs z-50">
+    <h4 class="font-semibold text-gray-900 mb-2">Tablet Layout (768px)</h4>
+    <ul class="space-y-1 text-gray-600">
+      <li>• Canvas: 65vh, 24px padding</li>
+      <li>• Panel: 35vh, 2-column grid</li>
+      <li>• Grid gap: 32px (columns)</li>
+      <li>• Swatches: 5-column grid</li>
+      <li>• Touch-optimized 44×44px</li>
+      <li>• More spacious than mobile</li>
+    </ul>
+  </div>
+
+  <script>
+    // Global state
+    let currentGradient = 1;
+    let paddingValue = 60;
+    let insetValue = 0;
+    let radiusValue = 8;
+
+    // Gradient mapping
+    const gradients = {
+      1: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      2: 'linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%)',
+      3: 'linear-gradient(135deg, #141e30 0%, #243b55 100%)',
+      4: 'linear-gradient(135deg, #02aab0 0%, #00cdac 100%)',
+      5: 'linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%)',
+      6: 'linear-gradient(135deg, #ed4264 0%, #ffedbc 100%)',
+      7: 'linear-gradient(135deg, #ff5f6d 0%, #ffc371 100%)',
+      8: 'linear-gradient(135deg, #ff9966 0%, #ff5e62 100%)',
+      9: 'linear-gradient(135deg, #cc2b5e 0%, #753a88 100%)',
+      10: 'linear-gradient(135deg, #ff512f 0%, #dd2476 100%)',
+      11: 'linear-gradient(135deg, #4568dc 0%, #b06ab3 100%)',
+      12: 'linear-gradient(135deg, #56ab2f 0%, #a8e063 100%)',
+      13: 'linear-gradient(135deg, #ee9ca7 0%, #ffdde1 100%)',
+      14: 'linear-gradient(135deg, #eacda3 0%, #d6ae7b 100%)',
+      15: 'linear-gradient(135deg, #4ca1af 0%, #c4e0e5 100%)'
+    };
+
+    function selectGradient(num) {
+      currentGradient = num;
+      document.querySelectorAll('[class*="gradient-"]').forEach(btn => {
+        btn.classList.remove('swatch-selected');
+      });
+      event.target.classList.add('swatch-selected');
+      updatePreview();
+    }
+
+    function updatePadding(value) {
+      paddingValue = value;
+      document.getElementById('padding-value').textContent = value + 'px';
+      updatePreview();
+    }
+
+    function updateInset(value) {
+      insetValue = value;
+      document.getElementById('inset-value').textContent = value + 'px';
+      updatePreview();
+    }
+
+    function updateRadius(value) {
+      radiusValue = value;
+      document.getElementById('radius-value').textContent = value + 'px';
+      updatePreview();
+    }
+
+    function updatePreview() {
+      const container = document.getElementById('preview-container');
+      const image = document.getElementById('preview-image');
+      if (container && image) {
+        container.style.padding = paddingValue + 'px';
+        container.style.background = gradients[currentGradient];
+        container.style.borderRadius = radiusValue + 'px';
+        image.style.borderRadius = radiusValue + 'px';
+      }
+    }
+
+    function showLoadedState() {
+      document.getElementById('empty-state').classList.add('hidden');
+      document.getElementById('loaded-state').classList.remove('hidden');
+      updatePreview();
+    }
+
+    // Auto-demo after 2s
+    setTimeout(showLoadedState, 2000);
+  </script>
+
+</body>
+</html>
